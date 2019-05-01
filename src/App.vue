@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
+      <router-link to="/tavern">Tavern</router-link> |
       <router-link to="/battle">Fight a Monster</router-link>
       <span class="player-stats"><b>Heath:{{playerHealth}} Mana:{{playerMana}} Gold:{{playerGold}}</b> </span>
     </div>
@@ -45,23 +46,29 @@ export default {
       playerGold: 50,
     }
   },
-  // mounted() {
-  //   if (localStorage.name) {
-  //     this.playerName = localStorage.name;
-  //   }
-  //   if (localStorage.class) {
-  //     this.playerClass = localStorage.class;
-  //   }
-  //   if (localStorage.gold) {
-  //     this.playerGold = localStorage.gold;
-  //   }
-  //   if (localStorage.hasName) {
-  //     this.hasName = localStorage.hasName;
-  //   }
-  //   if (localStorage.hasClass) {
-  //     this.hasClass = localStorage.hasClass;
-  //   }
-  // }
+  mounted() {
+    if (localStorage.name) {
+      this.playerName = localStorage.name;
+    }
+    if (localStorage.class) {
+      this.playerClass = localStorage.class;
+    }
+    if (localStorage.gold) {
+      this.$parent.playerGold = localStorage.gold;
+    }
+    if (localStorage.health) {
+      this.$parent.playerHealth = localStorage.health;
+    }
+    if (localStorage.mana) {
+      this.$parent.playerMana = localStorage.mana;
+    }
+    if (localStorage.hasName) {
+      this.hasName = localStorage.hasName;
+    }
+    if (localStorage.hasClass) {
+      this.hasClass = localStorage.hasClass;
+    }
+  },
 }
 </script>
 
