@@ -3,6 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/battle">Fight a Monster</router-link>
+      <span class="player-stats"><b>Heath:{{playerHealth}} Mana:{{playerMana}} Gold:{{playerGold}}</b> </span>
     </div>
     <router-view/>
   </div>
@@ -28,4 +29,22 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+.player-stats {
+  float: right;
+
+  color: #42b983;
+  
+}
 </style>
+<script>
+export default {
+  data() {
+    return {
+      playerHealth: 100,
+      playerMana: 100,
+      playerGold: 50,
+    }
+  },
+}
+</script>
+

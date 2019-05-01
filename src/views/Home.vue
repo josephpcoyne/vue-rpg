@@ -20,7 +20,7 @@
     </div>
     
     <div class="quest-start" v-if="hasClass">
-      <h2>Most formidable, {{playerName}}. I am pleased to see you aid us in our time of need.</h2>
+      <h2>Most formidable, {{playerName}}. I am pleased to have {{playerClass}}s join us in our time of need.</h2>
     </div>
   </div>
 </template>
@@ -43,6 +43,9 @@ export default {
     }
     if (localStorage.class) {
       this.playerClass = localStorage.class;
+    }
+    if (localStorage.gold) {
+      this.playerGold = localStorage.gold;
     }
   },
   methods: {

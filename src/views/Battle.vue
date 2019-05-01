@@ -2,14 +2,12 @@
   <div class="battle">
     <h1>Monster Fight!</h1>
     
+    <h2>Enemy Health: {{enemyHealth}}</h2>
     
-    <h2>Health:{{playerHealth}}</h2>
-    <h2>Mana: {{playerMana}}</h2>
     <button @click="attack()">Attack</button>
     <button @click="specialAttack()">Special Attack</button>
     <button @click="heal()">Heal</button>
     
-    <h2>Enemy Health: {{enemyHealth}}</h2>
     
     <ul v-for="actionLog in actionLogs" >
       <li>{{actionLog}}</li>
@@ -27,23 +25,32 @@ export default {
       specialDamage: "",
       enemyDamage: "",
       playerHeal: "",
-      playerHealth: 100,
-      playerMana: 100,
       enemyHealth: 100,
       actionLogs: []
     }
   },
+  computed: {
+    gameOver() {
+        if(this.$parent.playerHealth <= 0) {
+        alert("You Died");
+      } else if (this.enemyHealth <= 0) {
+        alert("You Defeated The Monster!");
+        var goldDrop = Math.floor(Math.random() * 20) + 1
+        alert("The Monster dropped " + goldDrop + " gold!")
+        this.$parent.playerGold += goldDrop;
+        localStorage.gold = this.$parent.playerGold;
+      }
+    }
+  },
   methods: {
-    
     playerAttack() {
       this.playerDamage = Math.floor(Math.random() * 10) + 1;
       this.actionLogs.push("You attacked for " + this.playerDamage + " damage.");
       this.enemyHealth -= this.playerDamage;
-      this.gameOver();
     },
     specialAttack() {
-      if(this.playerMana >= 25) {
-        this.playerMana -= 25;
+      if(this.$parent.playerMana >= 25) {
+        this.$parent.playerMana -= 25;
         this.specialDamage = Math.floor(Math.random() * 20) + 1;
         this.actionLogs.push("You attacked for " + this.specialDamage + " damage.");      
         this.enemyHealth -= this.specialDamage;
@@ -56,31 +63,39 @@ export default {
     enemyAttack() {
       this.enemyDamage = Math.floor(Math.random() * 10) + 1;
       this.actionLogs.push("Enemy attacked for " + this.enemyDamage + " damage.");
-      this.playerHealth -= this.enemyDamage;
+      this.$parent.playerHealth -= this.enemyDamage;
       this.gameOver();
+
     },
     attack() {
       this.playerAttack();
       this.enemyAttack();
+      this.gameOver();
+      
     },
     heal() {
-      if (this.playerMana >= 20) {
-        this.playerMana -= 20;
+      if (this.$parent.playerMana >= 20) {
+        this.$parent.playerMana -= 20;
         this.playerHeal = Math.floor(Math.random() * 10) + 1
         this.actionLogs.push("You restored " + this.playerHeal + " health.");      
-        this.playerHealth += this.playerHeal;
+        this.$parent.playerHealth += this.playerHeal;
         this.enemyAttack();
+        this.gameOver();        
         } else {
           this.actionLogs.push("Not enough Mana.");
         }
     },
-    gameOver() {
-        if(this.playerHealth <= 0) {
-        alert("You Died");
-      } else if (this.enemyHealth <= 0) {
-        alert("You Defeated The Monster!");
-      }
-    }
+    // gameOver() {
+    //     if(this.$parent.playerHealth <= 0) {
+    //     alert("You Died");
+    //   } else if (this.enemyHealth <= 0) {
+    //     alert("You Defeated The Monster!");
+    //     var goldDrop = Math.floor(Math.random() * 20) + 1
+    //     alert("The Monster dropped " + goldDrop + " gold!")
+    //     this.$parent.playerGold += goldDrop;
+    //     localStorage.gold = this.$parent.playerGold;
+    //   }
+    // }
   },
  }
 
