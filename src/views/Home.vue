@@ -47,17 +47,25 @@ export default {
     if (localStorage.gold) {
       this.playerGold = localStorage.gold;
     }
+    if (localStorage.hasName) {
+      this.hasName = localStorage.hasName;
+    }
+    if (localStorage.hasClass) {
+      this.hasClass = localStorage.hasClass;
+    }
   },
   methods: {
     saveName() {
       localStorage.name = this.playerName;
       if (window.confirm("Your name is " + this.playerName + ". Is this correct?")); {
+        localStorage.hasName = true;
         this.hasName = true;
       }
     },
     saveClass() {
       localStorage.class = this.playerClass;
       if(window.confirm("Your class is " + this.playerClass + ". Is this correct?")) {
+        localStorage.hasClass = true;
         this.hasClass = true;
       }
     }
