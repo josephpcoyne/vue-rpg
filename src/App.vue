@@ -45,6 +45,23 @@ export default {
       playerGold: 50,
     }
   },
+  // mounted() {
+  //   if (localStorage.name) {
+  //     this.playerName = localStorage.name;
+  //   }
+  //   if (localStorage.class) {
+  //     this.playerClass = localStorage.class;
+  //   }
+  //   if (localStorage.gold) {
+  //     this.playerGold = localStorage.gold;
+  //   }
+  //   if (localStorage.hasName) {
+  //     this.hasName = localStorage.hasName;
+  //   }
+  //   if (localStorage.hasClass) {
+  //     this.hasClass = localStorage.hasClass;
+  //   }
+  // }
 }
 </script>
 

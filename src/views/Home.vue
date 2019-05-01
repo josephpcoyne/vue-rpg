@@ -45,7 +45,13 @@ export default {
       this.playerClass = localStorage.class;
     }
     if (localStorage.gold) {
-      this.playerGold = localStorage.gold;
+      this.$parent.playerGold = localStorage.gold;
+    }
+    if (localStorage.health) {
+      this.$parent.playerHealth = localStorage.health;
+    }
+    if (localStorage.mana) {
+      this.$parent.playerMana = localStorage.mana;
     }
     if (localStorage.hasName) {
       this.hasName = localStorage.hasName;

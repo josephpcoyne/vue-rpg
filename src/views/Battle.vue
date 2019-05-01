@@ -39,6 +39,8 @@ export default {
         alert("The Monster dropped " + goldDrop + " gold!")
         this.$parent.playerGold += goldDrop;
         localStorage.gold = this.$parent.playerGold;
+        localStorage.health = this.$parent.playerHealth;
+        localStorage.mana = this.$parent.playerMana;
       }
     }
   },
@@ -85,17 +87,6 @@ export default {
           this.actionLogs.push("Not enough Mana.");
         }
     },
-    // gameOver() {
-    //     if(this.$parent.playerHealth <= 0) {
-    //     alert("You Died");
-    //   } else if (this.enemyHealth <= 0) {
-    //     alert("You Defeated The Monster!");
-    //     var goldDrop = Math.floor(Math.random() * 20) + 1
-    //     alert("The Monster dropped " + goldDrop + " gold!")
-    //     this.$parent.playerGold += goldDrop;
-    //     localStorage.gold = this.$parent.playerGold;
-    //   }
-    // }
   },
  }
 
