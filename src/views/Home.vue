@@ -1,19 +1,27 @@
 <template>
   <div class="home">
     <h1>Vue RPG</h1>
+    <div class="greeting" v-if="!hasName">
+      <h2>Welcome, Adventurer. Tell me, what is your name?</h2>
+      <input type="text" v-model="playerName" placeholder="Enter your name:">
+      <button @click="saveName()">Enter</button>
+    </div>
     
+    <div class="class-selection" v-if="hasName && !hasClass" >
+      <h2>Warmest greetings, {{playerName}}. What field of study did you grow from?</h2>
+      <select v-model="playerClass">
+        <option disabled value="">Select your Class</option>
+        <option>Warrior</option>
+        <option>Mage</option>
+        <option>Archer</option>
+      </select>
+      <br>
+      <button @click="saveClass()">Enter</button>
+    </div>
     
-    <h2>Health:{{playerHealth}}</h2>
-    <h2>Mana: {{playerMana}}</h2>
-    <button @click="attack()">Attack</button>
-    <button @click="specialAttack()">Special Attack</button>
-    <button @click="heal()">Heal</button>
-    
-    <h2>Enemy Health: {{enemyHealth}}</h2>
-    
-    <ul v-for="actionLog in actionLogs" >
-      <li>{{actionLog}}</li>
-    </ul>
+    <div class="quest-start" v-if="hasClass">
+      <h2>Most formidable, {{playerName}}. I am pleased to see you aid us in our time of need.</h2>
+    </div>
   </div>
 </template>
 
@@ -23,65 +31,34 @@ export default {
   
   data() {
     return {
-      playerDamage: "",
-      specialDamage: "",
-      enemyDamage: "",
-      playerHeal: "",
-      playerHealth: 100,
-      playerMana: 100,
-      enemyHealth: 100,
-      actionLogs: []
+     playerName: "",
+     playerClass: "",
+     hasName: false,
+     hasClass: false,
+    }
+  },
+  mounted() {
+    if (localStorage.name) {
+      this.playerName = localStorage.name;
+    }
+    if (localStorage.class) {
+      this.playerClass = localStorage.class;
     }
   },
   methods: {
-    
-    playerAttack() {
-      this.playerDamage = Math.floor(Math.random() * 10) + 1;
-      this.actionLogs.push("You attacked for " + this.playerDamage + " damage.");
-      this.enemyHealth -= this.playerDamage;
-      this.gameOver();
-    },
-    specialAttack() {
-      if(this.playerMana >= 25) {
-        this.playerMana -= 25;
-        this.specialDamage = Math.floor(Math.random() * 20) + 1;
-        this.actionLogs.push("You attacked for " + this.specialDamage + " damage.");      
-        this.enemyHealth -= this.specialDamage;
-        this.enemyAttack();
-        this.gameOver();
-      } else {
-        this.actionLogs.push("Not enough Mana.");
+    saveName() {
+      localStorage.name = this.playerName;
+      if (window.confirm("Your name is " + this.playerName + ". Is this correct?")); {
+        this.hasName = true;
       }
     },
-    enemyAttack() {
-      this.enemyDamage = Math.floor(Math.random() * 10) + 1;
-      this.actionLogs.push("Enemy attacked for " + this.enemyDamage + " damage.");
-      this.playerHealth -= this.enemyDamage;
-      this.gameOver();
-    },
-    attack() {
-      this.playerAttack();
-      this.enemyAttack();
-    },
-    heal() {
-      if (this.playerMana >= 20) {
-        this.playerMana -= 20;
-        this.playerHeal = Math.floor(Math.random() * 10) + 1
-        this.actionLogs.push("You restored " + this.playerHeal + " health.");      
-        this.playerHealth += this.playerHeal;
-        this.enemyAttack();
-        } else {
-          this.actionLogs.push("Not enough Mana.");
-        }
-    },
-    gameOver() {
-        if(this.playerHealth <= 0) {
-        alert("You Died");
-      } else if (this.enemyHealth <= 0) {
-        alert("You Defeated The Monster!");
+    saveClass() {
+      localStorage.class = this.playerClass;
+      if(window.confirm("Your class is " + this.playerClass + ". Is this correct?")) {
+        this.hasClass = true;
       }
     }
-  },
   }
+ }
 
 </script>
