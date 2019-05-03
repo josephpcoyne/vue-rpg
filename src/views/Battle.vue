@@ -44,7 +44,7 @@ export default {
       }
     },
     playerHealth() {
-      if(this.player.health <= 0) {
+      if(this.$parent.player.health <= 0) {
         alert("You Died");
       }
     },

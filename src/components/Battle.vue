@@ -4,6 +4,7 @@
     
     <h1>{{monsters[i].name}}</h1>
     <h2>Enemy Health: {{enemyHealth}}</h2>
+    <p>{{playerHealth}}</p>
     
     <button @click="attack()">Attack</button>
     <button @click="specialAttack()">Special Attack</button>
@@ -20,11 +21,12 @@
 
 export default {
   props: {
-    Player: Object
+    player: Object
   },
   data() {
     return {
       i: 0,
+      playerHealth: this.$parent.player.health,
       playerDamage: "",
       specialDamage: "",
       enemyDamage: "",
@@ -54,12 +56,12 @@ export default {
       }
     },
     playerHealth() {
-      if(this.$parent.player.health <= 0) {
+      if (this.playerHealth <= 0) {
         alert("You Died");
       }
     },
     playerExp() {
-        if(this.$parent.player.exp >= 100) {
+        if(this.player.exp >= 100) {
           this.$parent.player.level += 1;
           alert("You gained a level!");
           this.$parent.playerExp -= 100;
@@ -89,6 +91,7 @@ export default {
       this.enemyDamage = Math.floor(Math.random() * 10) + 1;
       this.actionLogs.push("Enemy attacked for " + this.enemyDamage + " damage.");
       this.$parent.player.health -= this.enemyDamage;
+      this.playerHealth = this.$parent.player.health;
 
     },
     attack() {

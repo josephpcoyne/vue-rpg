@@ -18,9 +18,13 @@
       <button @click="saveClass()">Enter</button>
     </div>
     
-    <div class="quest-start" v-if="hasClass && this.$parent.inFight == false">
+    <div class="quest-start" v-if="hasClass && !this.$parent.inFight">
       <h2>{{introDialog[i]}}</h2>
       <button @click="i++, startFight()">Next</button>
+    </div>
+    <div class="town-intro" v-if="player.exp > 0">
+      <h2>Most impressive, {{player.class}}. You indeed are the hero we need in these dark times. Please, make use of this town as your home base. Rest when you are weary, and visit our shops to arm yourseld and replenish your supplies. We're counting on you {{player.name}}</h2>
+      <button @click="this.$parent.hasCharacter = true">Enter Town</button>
     </div>
   </div>
 </template>
@@ -56,7 +60,6 @@
       startFight() {
         if (this.i > this.introDialog.length - 1) {
           this.$parent.inFight = true;
-          this.$parent.hasCharacter = true;          
         }
       }
     }

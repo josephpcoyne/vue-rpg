@@ -3,8 +3,8 @@
     <NavBar :player="player" />
     <CharacterCreation :player="player" v-if="!hasCharacter && !inFight"/>
     <router-view/>
-    <Battle :player="player" v-if="inFight"/>
-    
+    <!-- <Town :player="player" /> -->
+    <Battle :player="player" v-if="inFight"/>    
   </div>
 </template>
 
@@ -60,35 +60,32 @@ export default {
       inFight: false,
     }
   },
-  mounted() {
-    if (localStorage.name) {
-      this.playerName = localStorage.name;
-    }
-    if (localStorage.class) {
-      this.playerClass = localStorage.class;
-    }
-    if (localStorage.gold) {
-      this.playerGold = localStorage.gold;
-    }
-    if (localStorage.health) {
-      this.playerHealth = localStorage.health;
-    }
-    if (localStorage.mana) {
-      this.playerMana = localStorage.mana;
-    }
-    if (localStorage.hasName) {
-      this.hasName = localStorage.hasName;
-    }
-    if (localStorage.hasClass) {
-      this.hasClass = localStorage.hasClass;
-    }
-    if (localStorage.level) {
-      this.playerLevel = localStorage.level;
-    }
-    if (localStorage.exp) {
-      this.playerExp = localStorage.exp;
-    }
-  },
+  // mounted() {
+  //   if (localStorage.name) {
+  //     this.playerName = localStorage.name;
+  //   }
+  //   if (localStorage.class) {
+  //     this.playerClass = localStorage.class;
+  //   }
+  //   if (localStorage.gold) {
+  //     this.playerGold = localStorage.gold;
+  //   }
+  //   if (localStorage.health) {
+  //     this.playerHealth = localStorage.health;
+  //   }
+  //   if (localStorage.mana) {
+  //     this.playerMana = localStorage.mana;
+  //   }
+  //   if (localStorage.hasClass) {
+  //     this.hasClass = localStorage.hasClass;
+  //   }
+  //   if (localStorage.level) {
+  //     this.playerLevel = localStorage.level;
+  //   }
+  //   if (localStorage.exp) {
+  //     this.playerExp = localStorage.exp;
+  //   }
+  // },
 }
 </script>
 
