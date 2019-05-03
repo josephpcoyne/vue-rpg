@@ -1,12 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/tavern">Tavern</router-link> |
-      <router-link to="/battle">Fight a Monster</router-link>
-      <span class="player-stats"><b>Heath:{{playerHealth}} Mana:{{playerMana}} Gold:{{playerGold}}</b> </span>
-    </div>
+    <NavBar :player="player" />
+    <CharacterCreation :player="player" v-if="!hasCharacter && !inFight"/>
     <router-view/>
+    <Battle :player="player" v-if="inFight"/>
+    
   </div>
 </template>
 
@@ -38,12 +36,28 @@
 }
 </style>
 <script>
+import NavBar from './components/NavBar.vue';
+import CharacterCreation from './components/CharacterCreation.vue';
+import Battle from './components/Battle.vue';
+
 export default {
+  components: {
+    NavBar,
+    CharacterCreation,
+    Battle,
+  },
   data() {
     return {
-      playerHealth: 100,
-      playerMana: 100,
-      playerGold: 50,
+      player: {
+           name: "" ,
+           class: "" ,
+           health: 100 ,
+           mana: 100 ,
+           gold: 50 ,
+           level: 1 ,
+           exp: 0 },
+      hasCharacter: false,
+      inFight: false,
     }
   },
   mounted() {
@@ -54,19 +68,25 @@ export default {
       this.playerClass = localStorage.class;
     }
     if (localStorage.gold) {
-      this.$parent.playerGold = localStorage.gold;
+      this.playerGold = localStorage.gold;
     }
     if (localStorage.health) {
-      this.$parent.playerHealth = localStorage.health;
+      this.playerHealth = localStorage.health;
     }
     if (localStorage.mana) {
-      this.$parent.playerMana = localStorage.mana;
+      this.playerMana = localStorage.mana;
     }
     if (localStorage.hasName) {
       this.hasName = localStorage.hasName;
     }
     if (localStorage.hasClass) {
       this.hasClass = localStorage.hasClass;
+    }
+    if (localStorage.level) {
+      this.playerLevel = localStorage.level;
+    }
+    if (localStorage.exp) {
+      this.playerExp = localStorage.exp;
     }
   },
 }

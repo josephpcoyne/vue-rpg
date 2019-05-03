@@ -1,7 +1,8 @@
 <template>
   <div class="battle">
-    <h1>Monster Fight!</h1>
+    <h1>A Monster Appears!</h1>
     
+    <h1>{{monsters[i].name}}</h1>
     <h2>Enemy Health: {{enemyHealth}}</h2>
     
     <button @click="attack()">Attack</button>
@@ -19,16 +20,23 @@
 
 export default {
   props: {
-    player: Object
+    Player: Object
   },
   data() {
     return {
+      i: 0,
       playerDamage: "",
       specialDamage: "",
       enemyDamage: "",
       playerHeal: "",
       enemyHealth: 100,
-      actionLogs: []
+      actionLogs: [],
+      monsters: [ 
+        {id: 0, name: "Goblin"},
+        {id: 1, name: "Orc"},
+        {id: 2, name: "Ogre"},
+        {id: 3, name: "Troll"}
+        ]
     }
   },
   watch: {
@@ -39,12 +47,14 @@ export default {
         alert("You Defeated The Monster! The Monster dropped " + goldDrop + " gold! You gained " + exp + " XP!");
         this.$parent.player.gold += goldDrop;
         this.$parent.player.exp += exp;
-        localStorage.player = this.$parent.player
+        this.$parent.inFight = false
+        this.i += 1;
+        this.enemyHealth = 100;
 
       }
     },
     playerHealth() {
-      if(this.player.health <= 0) {
+      if(this.$parent.player.health <= 0) {
         alert("You Died");
       }
     },
