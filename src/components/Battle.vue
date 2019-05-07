@@ -1,58 +1,71 @@
 <template>
   <div class="battle">
-    <h1>A Monster Appears!</h1>
-    
-    <h1>{{monsters[i].name}}</h1>
-    <h2>Enemy Health: {{enemyHealth}}</h2>
-    <p>{{playerHealth}}</p>
-    
-    <button @click="attack()">Attack</button>
-    <button @click="specialAttack()">Special Attack</button>
-    <button @click="heal()">Heal</button>
-    
-    
-    <ul v-for="actionLog in actionLogs" >
-      <li>{{actionLog}}</li>
-    </ul>
+    <div class="battle-text">
+      <h1>A {{$parent.monsters[$parent.i].name}} Appeared!</h1>
+      <h2>Enemy Health: {{$parent.monsters[$parent.i].health}}</h2>
+      <ul v-for="actionLog in actionLogs" >
+        <li>{{actionLog}}</li>
+      </ul>
+    </div>
+    <ActionBar @attack="attack" @heal="heal" @special-attack="specialAttack" />
   </div>
 </template>
+<style scoped>
+.battle-text {
+  margin: auto 0;
+  padding: 4%;
+  background-image: url("../../public/textbg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50%;
+  bottom: 50%;
+  left: 20%;
+  position: absolute;
+  text-align: center;
+}
+.action-bar {
+  /* border-style: solid;
+  border-width: 10px;
+  width: 340px; */
+  position: absolute;
+  bottom: 18%;
+  left: 38%;
+  
+}
+
+</style>
 
 <script>
+import ActionBar from './ActionBar.vue';
 
 export default {
+  components: {
+    ActionBar,
+  },
   props: {
     player: Object
   },
   data() {
     return {
-      i: 0,
       playerHealth: this.$parent.player.health,
       playerDamage: "",
       specialDamage: "",
       enemyDamage: "",
       playerHeal: "",
-      enemyHealth: 100,
       actionLogs: [],
-      monsters: [ 
-        {id: 0, name: "Goblin"},
-        {id: 1, name: "Orc"},
-        {id: 2, name: "Ogre"},
-        {id: 3, name: "Troll"}
-        ]
     }
   },
   watch: {
     enemyHealth() {
-      if (this.enemyHealth <= 0) {
+      if (this.$parent.monsters[this.$parent.i].health <= 0) {
         var goldDrop = Math.floor(Math.random() * 20) + 1
         var exp = Math.floor(Math.random() * (30 - 15 + 1) + 15);
         alert("You Defeated The Monster! The Monster dropped " + goldDrop + " gold! You gained " + exp + " XP!");
         this.$parent.player.gold += goldDrop;
         this.$parent.player.exp += exp;
         this.$parent.inFight = false
-        this.i += 1;
-        this.enemyHealth = 100;
-
+        this.$parent.i += 1;
       }
     },
     playerHealth() {
@@ -66,22 +79,24 @@ export default {
           alert("You gained a level!");
           this.$parent.playerExp -= 100;
           localStorage.player = this.$parent.player
-          
-        } 
-    }
-  },
+        }
+      }
+    },
+    computed: {
+
+    },
   methods: {
     playerAttack() {
       this.playerDamage = Math.floor(Math.random() * 10) + 1;
       this.actionLogs.push("You attacked for " + this.playerDamage + " damage.");
-      this.enemyHealth -= this.playerDamage;
+      this.$parent.monsters[this.$parent.i].health -= this.playerDamage;
     },
     specialAttack() {
       if(this.$parent.player.mana >= 25) {
         this.$parent.player.mana -= 25;
         this.specialDamage = Math.floor(Math.random() * 20) + 1;
-        this.actionLogs.push("You attacked for " + this.specialDamage + " damage.");      
-        this.enemyHealth -= this.specialDamage;
+        this.actionLogs.push("You attacked for " + this.specialDamage + " damage.");
+        this.this.$parent.monsters[this.$parent.i].health -= this.specialDamage;
         this.enemyAttack();
       } else {
         this.actionLogs.push("Not enough Mana.");
