@@ -91,6 +91,7 @@
     border-radius: 10px;
     z-index: 2;
     height: 100%;
+    max-width: 385;
   }
   .enemy-health {
     text-align: center;

@@ -67,7 +67,7 @@
         }
       },
       enterTown() {
-        this.$parent.hasCharacter = true;
+        this.$parent.inTown = true;
       }
     }
   }

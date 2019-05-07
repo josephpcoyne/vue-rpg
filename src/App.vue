@@ -1,9 +1,8 @@
 <template>
-  <div id="app" >
-    <CharacterCreation :player="player" v-if="!hasCharacter && !inFight"/>
-    <Town v-if="hasCharacter"/>
+  <div id="app" :style="townScene">
+    <CharacterCreation :player="player" v-if="!inTown && !inFight"/>
+    <Town  :player="player" v-if="inTown"/>
     <router-view/>
-    <!-- <Town :player="player" /> -->
     <CharacterStats :player="player" />
     <Battle :player="player" :monsters="monsters" v-if="inFight"/>
   </div>
@@ -65,8 +64,16 @@ export default {
         {name: "Ogre", avatar: "ogre.png", health: 200},
         {name: "Troll", avatar: "troll.png", health: 250}
         ],
-      hasCharacter: false,
+      inTown: false,
       inFight: false,
+    }
+  },
+  computed: {
+    townScene() {
+      if (this.inTown)
+      return {
+        backgroundImage: 'url(' + 'bg.png' + ')' + ',' + 'url(' + 'town.jpg' + ')' 
+      } 
     }
   },
   // mounted() {
