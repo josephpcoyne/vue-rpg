@@ -21,7 +21,7 @@
       <button @click="i++, startFight()">Next</button>
     </div>
     <div class="town-intro" v-if="player.exp > 0">
-      <h2>Most impressive, {{player.class.name}}. You indeed are the hero we need in these dark times. Please, make use of this town as your home base. Rest when you are weary, and visit our shops to arm yourseld and replenish your supplies. We're counting on you {{player.name}}</h2>
+      <h2>Most impressive, {{player.class.name}}. You indeed are the hero we need in these dark times. Please, make use of this town as your home base. Rest when you are weary, and visit our shops to arm yourself and replenish your supplies. We're counting on you {{player.name}}.</h2>
       <button @click="enterTown()">Enter Town</button>
     </div>
   </div>

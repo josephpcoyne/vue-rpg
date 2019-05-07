@@ -5,7 +5,7 @@
     <router-view/>
     <!-- <Town :player="player" /> -->
     <CharacterStats :player="player" />
-    <Battle :player="player" v-if="inFight"/>
+    <Battle :player="player" :monsters="monsters" v-if="inFight"/>
   </div>
 </template>
 
