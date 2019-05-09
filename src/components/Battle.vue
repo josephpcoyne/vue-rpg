@@ -2,10 +2,11 @@
   <div class="battle">
     <div class="battle-text">
       <h1>A {{monsters[$parent.i].name}} Appeared!</h1>
-      <h2>Enemy Health: {{monsters[$parent.i].health}}</h2>
-      <ul v-for="actionLog in actionLogs" >
-        <li>{{actionLog}}</li>
-      </ul>
+      <div class="battle-log">
+        <ul v-for="actionLog in actionLogs" >
+          <li>{{actionLog}}</li>
+        </ul>
+      </div>
     </div>
     <ActionBar @attack="attack" @heal="heal" @special-attack="specialAttack" />
   </div>
@@ -23,6 +24,22 @@
   left: 20%;
   position: absolute;
   text-align: center;
+  height: 100px; 
+  font-family: 'Quintessential', cursive;
+  
+
+}
+.battle-log {
+  overflow: hidden;
+  overflow-y:scroll;
+  font-family: 'Quintessential', cursive;
+
+}
+ul {
+    list-style-type: none;
+  margin: 0;
+  padding: 0;
+  
 }
 .action-bar {
   /* border-style: solid;
@@ -55,6 +72,7 @@ export default {
       enemyDamage: "",
       playerHeal: "",
       actionLogs: [],
+      battleLogs: [],
     }
   },
   watch: {
@@ -72,6 +90,7 @@ export default {
     playerHealth() {
       if (this.playerHealth <= 0) {
         alert("You Died");
+        window.location.reload()
       }
     },
     playerExp() {
@@ -84,18 +103,21 @@ export default {
       }
     },
     computed: {
-
+      battleText() {
+        this.battleLogs = this.actionLogs 
+      }
     },
   methods: {
     playerAttack() {
-      this.playerDamage = this.numberRoll(5, 15)
+      this.playerDamage = this.numberRoll(10, 15)
       this.actionLogs.push("You attacked for " + this.playerDamage + " damage.");
       this.$parent.monsters[this.$parent.i].health -= this.playerDamage;
     },
     specialAttack() {
+      this.actionLogs = []
       if(this.$parent.player.mana >= 25) {
         this.$parent.player.mana -= 25;
-        this.specialDamage = this.numberRoll(5, 20);
+        this.specialDamage = this.numberRoll(15, 25);
         this.actionLogs.push("You attacked for " + this.specialDamage + " damage.");
         this.$parent.monsters[this.$parent.i].health -= this.specialDamage;
         this.checkWin();
@@ -112,15 +134,18 @@ export default {
 
     },
     attack() {
+      this.actionLogs = []
       this.playerAttack();
       this.checkWin();
       this.enemyAttack();
       
+      
     },
     heal() {
+      this.actionLogs = []
       if (this.$parent.player.mana >= 20) {
         this.$parent.player.mana -= 20;
-        this.playerHeal = this.numberRoll(5, 15)
+        this.playerHeal = this.numberRoll(10, 30)
         this.actionLogs.push("You restored " + this.playerHeal + " health.");      
         this.$parent.player.health += this.playerHeal;
         this.enemyAttack();

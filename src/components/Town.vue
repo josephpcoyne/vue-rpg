@@ -10,7 +10,7 @@
       <div class="grid-item"></div>
       <div class="grid-item"></div>
       <div class="grid-item"></div>
-      <div class="grid-item"><button @click="$parent.inFight = true"></button></div>
+      <div class="grid-item"><button @click="$parent.inFight = true">Fight Monsters</button></div>
     </div>
   </div>
 </template>
